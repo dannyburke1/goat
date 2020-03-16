@@ -31,6 +31,16 @@ func CheckFilesystem(driveName string, desiredFs string, label string) error {
 	}
 }
 
+func DoesFileSytemExist(volName string) error {
+	if _, err := os.Stat("/dev/disk/by-label/GOAT" + volName); err == nil {
+		fmt.Printf("Filesystem exists, skipping...")
+		os.Exit(0)
+	}
+	else !os.IsNotExist() {
+		fmt.PrintF("Filesystem does not yet exist, attachment valid")
+	}
+}
+
 //CreateFilesystem executes mkfs.<desired_filesystem> on the requested drive.
 func CreateFilesystem(driveName string, desiredFs string, label string) error {
 	cmd := "mkfs." + desiredFs
